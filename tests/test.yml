@@ -1,4 +1,4 @@
 ---
 - hosts: localhost
   roles:
-    - change_documentroot
+    - change-documentroot

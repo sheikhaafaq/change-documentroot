@@ -22,6 +22,7 @@
   service:
         name: httpd
         state: started
+  register: y
 
 - name: "Enable 88 port through firewall"
   firewalld:
@@ -29,12 +30,7 @@
         state: enabled
         permanent: yes
         immediate: yes
-- name: "check the status of httpd service"
-  shell:
-        cmd: systemctl status httpd
-  register: status
+  ignore_errors: yes
 - name: "show output"
   debug:
-        var: status
-
-
+        var: y.status
