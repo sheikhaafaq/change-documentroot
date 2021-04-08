@@ -8,26 +8,33 @@
   file:
           state: directory
           path: "/var/www/mydocumentroot"
-- copy:
+- name: "copy index page"
+  copy:
         src: "index.html"
         dest: "/var/www/mydocumentroot/index.html"
-- template:
+- name: "copy documentroot config file"
+  template:
         src: "custom_document_root.conf"
         dest: "/etc/httpd/conf/"
   notify:
           - Restart_httpd
-- service:
+- name: "start the httpd service"
+  service:
         name: httpd
         state: started
-- firewalld:
-        port: 8080/tcp
+
+- name: "Enable 88 port through firewall"
+  firewalld:
+        port: 88/tcp
         state: enabled
         permanent: yes
         immediate: yes
-- shell:
+- name: "check the status of httpd service"
+  shell:
         cmd: systemctl status httpd
   register: status
-- debug:
+- name: "show output"
+  debug:
         var: status
 
 
