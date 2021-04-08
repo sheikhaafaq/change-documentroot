@@ -1,0 +1,6 @@
+---
+# handlers file for change_documentroot
+- name: 'Restart_httpd'
+  service:
+          name: httpd
+          state: restarted

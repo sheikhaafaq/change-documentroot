@@ -1,0 +1,33 @@
+---
+# tasks file for change_documentroot
+- name: "Install httpd package"
+  package:
+          name: httpd
+          state: present
+- name: "customize document root httpd "
+  file:
+          state: directory
+          path: "/var/www/mydocumentroot"
+- copy:
+        src: "index.html"
+        dest: "/var/www/mydocumentroot/index.html"
+- template:
+        src: "custom_document_root.conf"
+        dest: "/etc/httpd/conf/"
+  notify:
+          - Restart_httpd
+- service:
+        name: httpd
+        state: started
+- firewalld:
+        port: 8080/tcp
+        state: enabled
+        permanent: yes
+        immediate: yes
+- shell:
+        cmd: systemctl status httpd
+  register: status
+- debug:
+        var: status
+
+
